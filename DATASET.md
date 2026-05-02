@@ -90,13 +90,13 @@ IFC_extracted_elements_dataset_part_3/
 ├──.../
 ```
 
-**BIMCompNet:** You can download the dataset at [[BIMCompNet](https://bimcompnet-606lab.xaut.edu.cn/)]. Used for fine-grained BIM component classification.
+**BIMCompNet:** You can download the dataset at [[BIMCompNet](https://bimcompnet-606lab.xaut.edu.cn/)]. Used for pre-training (less test samples)/BIM object classification.
 
-**BIMObject:** You can download the dataset at [[GitHub](https://github.com/duyguutkucu/BIMObjectDataset/tree/main)]. Used for BIM object classification.
+**BIMObject:** You can download the dataset at [[GitHub](https://github.com/duyguutkucu/BIMObjectDataset/tree/main)]. Used for fine-grained BIM component classification.
 
 **BIMNet:** You can download the dataset at [[GitHub](https://github.com/LydJason/BIMNet)]. Used for semantic segmentation via transfer learning.
 
-**ShapeNetPart:** TBD.
+**ShapeNetPart:** You can download the dataset at [[GitHub](https://github.com/SkyworkAI/PointCloudMamba/tree/main/data)] or [[Kaggle](https://www.kaggle.com/datasets/majdouline20/shapenetpart-dataset)]. Used for out-of-distribution part segmentation of CAD objects.
 
 ---
 
