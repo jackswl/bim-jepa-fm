@@ -4,9 +4,9 @@ Created by [Jack Wei Lun Shi](https://jackswl.github.io/)\*, [Wawan Solihin](htt
 
 [[Paper]](https://jackswl.github.io/bim-jepa-fm/) [[Project Page]](https://jackswl.github.io/bim-jepa-fm/) [[Model Weights]](#pretrained-models)
 
-This repository contains BIM-JEPA++ implementation for __Generalizable foundation models for 3D BIM geometry with a joint embedding predictive architecture__ (Under Review).
+This repository contains BIM-JEPA implementation for __Generalizable foundation models for 3D BIM geometry with a joint embedding predictive architecture__ (Under Review).
 
-BIM-JEPA++ is a point cloud-based foundation model for 3D Building Information Modeling (BIM) geometry, pre-trained via a Latent-Euclidean Joint Embedding Predictive Architecture on individual BIM objects. By enforcing predictive consistency between global object context and local topological details within a regularized latent space, BIM-JEPA++ extracts robust semantic features while suppressing low-level geometric noise. The learned representations generalize across multiple downstream tasks, including standard and fine-grained object classification, semantic segmentation via transfer learning, out-of-distribution part segmentation of computer-aided design objects, and zero-shot tasks such as shape retrieval and clash detection.
+BIM-JEPA is a point cloud-based foundation model for 3D Building Information Modeling (BIM) geometry, pre-trained via a Latent-Euclidean Joint Embedding Predictive Architecture on individual BIM objects. By enforcing predictive consistency between global object context and local topological details within a regularized latent space, BIM-JEPA extracts robust semantic features while suppressing low-level geometric noise. The learned representations generalize across multiple downstream tasks, including standard and fine-grained object classification, semantic segmentation via transfer learning, out-of-distribution part segmentation of computer-aided design objects, and zero-shot tasks such as shape retrieval and clash detection.
 
 All training code and weights will be released upon acceptance of the paper.
 
@@ -16,13 +16,13 @@ All model weights will be made available on HuggingFace upon paper acceptance.
 
 |model| dataset | config | url|
 | :---: | :---: | :---: |  :---: | 
-|BIM-JEPA++-pretrained| IFC-884; IFCNet; BIMGEOM | TBD | TBD |
+|BIM-JEPA-pretrained| IFC-884; IFCNet; BIMGEOM | TBD | TBD |
 
 |model| dataset  | task | config | url|
 | :---:| :---: | :---: |  :---: | :---: |
-|BIM-JEPA++-IFCNetCore| IFCNetCore | Classification | TBD | TBD |
-|BIM-JEPA++-BIMGEOM| BIMGEOM | Classification | TBD | TBD |
-|BIM-JEPA++-PartNet| PartNet | Part Segmentation | TBD | TBD |
+|BIM-JEPA-IFCNetCore| IFCNetCore | Classification | TBD | TBD |
+|BIM-JEPA-BIMGEOM| BIMGEOM | Classification | TBD | TBD |
+|BIM-JEPA-PartNet| PartNet | Part Segmentation | TBD | TBD |
 
 
 ## Usage
@@ -65,7 +65,7 @@ pip install transformers accelerate "pytorch-lightning>=2.0" "jsonargparse[signa
 ```
 
 ### Dataset
-The details of raw data will be provided in `DATASET.md` upon release. Once available, please run `data_convert.ipynb` to convert all raw data into NPY point clouds.
+TBD
 
 
 ## License
@@ -78,4 +78,3 @@ in progress
 ```
 
 ## Acknowledgements
-We sincerely thank the authors of BIM-JEPA, LeJEPA, I-JEPA, Point-JEPA, SpaRSE-BIM/IFCNet, and BIMGEOM for making their code and models publicly available, which served as the foundation for this work. If you use our work, please also consider citing these papers.
