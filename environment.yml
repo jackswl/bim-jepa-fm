@@ -202,6 +202,7 @@ dependencies:
       - pytorch-lightning==2.5.3
       - pytz==2025.2
       - regex==2025.7.34
+      - remotezip
       - safetensors==0.6.2
       - scikit-learn==1.7.1
       - scipy==1.16.1

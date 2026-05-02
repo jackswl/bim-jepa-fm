@@ -65,7 +65,7 @@ Finally, install the remaining miscellaneous/visualization packages:
 pip install transformers accelerate "pytorch-lightning>=2.0" "jsonargparse[signatures]" \
     hydra-core omegaconf trimesh scikit-learn h5py matplotlib wandb timm \
     lightning-bolts lightning-utilities fvcore yacs pandas seaborn plotly \
-    huggingface-hub tokenizers torchmetrics pydantic
+    huggingface-hub tokenizers torchmetrics pydantic remotezip
 ```
 
 ### Dataset
