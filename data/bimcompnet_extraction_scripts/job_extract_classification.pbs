@@ -1,0 +1,63 @@
+#!/bin/bash
+# ============================================================================
+# Classification extraction job: downloads the BIMCompNet 100/500/1000/5000
+# train/test sampling splits (named as Instance_Class.obj).
+#
+# Override at submit time, e.g.:
+#   qsub -P <project_code> \
+#        -v CONDA_ENV=myenv,DATA_DIR=/path/to/data,BASE_URL=https://host \
+#        job_extract_classification.pbs
+# ============================================================================
+#PBS -l select=1:ncpus=64:mem=440gb
+#PBS -l walltime=24:00:00
+#PBS -j oe
+#PBS -P xxxxxx
+#PBS -q normal
+#PBS -N extract_classification
+
+cd $PBS_O_WORKDIR || exit $?
+
+# --- CONFIGURATION (overridable via env / qsub -v) ---
+CONDA_ENV="${CONDA_ENV:-bimjepafm}"
+DATA_DIR="${DATA_DIR:-/scratch/users/nus/xxxxxxxx/bimcompnet}"
+BASE_URL="${BASE_URL:-https://bim606-lab.xaut.edu.cn}"
+WORKERS="${WORKERS:-64}"
+MAX_RETRIES="${MAX_RETRIES:-3}"
+SAMPLE_SIZES_CSV="${SAMPLE_SIZES:-100,500,1000,5000}"
+SPLITS_CSV="${SPLITS:-train,test}"
+# -----------------------------------------------------
+
+LOG_FILE="log_extract_classification.${PBS_JOBID%%.*}.txt"
+
+IFS=',' read -r -a SAMPLE_SIZES_ARR <<< "${SAMPLE_SIZES_CSV}"
+IFS=',' read -r -a SPLITS_ARR <<< "${SPLITS_CSV}"
+
+{
+    echo "Starting BIMCompNet classification (train/test) extraction..."
+    echo "  Conda env: ${CONDA_ENV}"
+    echo "  Data dir:  ${DATA_DIR}"
+    echo "  Source:    ${BASE_URL}"
+    echo "  Workers:   ${WORKERS}"
+    echo "  Sizes:     ${SAMPLE_SIZES_CSV}"
+    echo "  Splits:    ${SPLITS_CSV}"
+
+    module load miniforge3
+    conda activate "${CONDA_ENV}"
+
+    mkdir -p "${DATA_DIR}"
+
+    for n in "${SAMPLE_SIZES_ARR[@]}"; do
+        for s in "${SPLITS_ARR[@]}"; do
+            folder="BIMCompNet_${n}_${s}"
+            echo ">>> Processing ${folder}..."
+            python -u extract_classification.py \
+                --output-dir "${DATA_DIR}" \
+                --workers "${WORKERS}" \
+                --max-retries "${MAX_RETRIES}" \
+                "${BASE_URL}/${folder}.zip" "${folder}"
+        done
+    done
+
+    echo "--- ALL CLASSIFICATION DOWNLOADS FINISHED ---"
+
+} > "$LOG_FILE" 2>&1

@@ -1,0 +1,76 @@
+#!/bin/bash
+# ============================================================================
+# Pretrain extraction job: downloads the full BIMCompNet building zips and
+# saves only the .obj files (named as Instance.obj).
+#
+# Override at submit time, e.g.:
+#   qsub -P <project_code> \
+#        -v CONDA_ENV=myenv,DATA_DIR=/path/to/data,BASE_URL=https://host \
+#        job_extract_pretrain.pbs
+# ============================================================================
+#PBS -l select=1:ncpus=32:mem=440gb
+#PBS -l walltime=24:00:00
+#PBS -j oe
+#PBS -P xxxxxx
+#PBS -q normal
+#PBS -N extract_pretrain
+
+cd $PBS_O_WORKDIR || exit $?
+
+# --- CONFIGURATION (overridable via env / qsub -v) ---
+CONDA_ENV="${CONDA_ENV:-bimjepafm}"
+DATA_DIR="${DATA_DIR:-/scratch/users/nus/xxxxxxxx/bimcompnet}"
+BASE_URL="${BASE_URL:-https://bim606-lab.xaut.edu.cn}"
+WORKERS="${WORKERS:-32}"
+MAX_RETRIES="${MAX_RETRIES:-3}"
+# -----------------------------------------------------
+
+LOG_FILE="log_extract_pretrain.${PBS_JOBID%%.*}.txt"
+
+# zip_basename:destination_folder
+DATASETS=(
+    "Museum.zip:Museum_new"
+    "Malls.zip:Malls_new"
+    "Hospital%20(Part%20A).zip:Hospital_A_new"
+    "Hospital%20(Part%20B).zip:Hospital_B_new"
+    "Hospital%20(Part%20C).zip:Hospital_C_new"
+    "EquipmentRoom.zip:EquipmentRoom_new"
+    "FactoryBuilding.zip:Factory_new"
+    "Hotels.zip:Hotels_new"
+    "Layout.zip:Layout_new"
+    "Metro.zip:Metro_new"
+    "OfficeBuilding.zip:Office_new"
+    "PublicBuilding.zip:Public_new"
+    "ResidentialBuilding.zip:Residential_new"
+    "School.zip:School_new"
+    "Theater.zip:Theater_new"
+    "Villa.zip:Villa_new"
+)
+
+{
+    echo "Starting BIMCompNet pretrain extraction..."
+    echo "  Conda env: ${CONDA_ENV}"
+    echo "  Data dir:  ${DATA_DIR}"
+    echo "  Source:    ${BASE_URL}"
+    echo "  Workers:   ${WORKERS}"
+    echo "  Retries:   ${MAX_RETRIES}"
+
+    module load miniforge3
+    conda activate "${CONDA_ENV}"
+
+    mkdir -p "${DATA_DIR}"
+
+    for entry in "${DATASETS[@]}"; do
+        zip_name="${entry%%:*}"
+        folder_name="${entry##*:}"
+        echo ">>> Processing ${folder_name}..."
+        python -u extract_pretrain.py \
+            --output-dir "${DATA_DIR}" \
+            --workers "${WORKERS}" \
+            --max-retries "${MAX_RETRIES}" \
+            "${BASE_URL}/${zip_name}" "${folder_name}"
+    done
+
+    echo "--- ALL PRETRAIN DOWNLOADS FINISHED ---"
+
+} > "$LOG_FILE" 2>&1

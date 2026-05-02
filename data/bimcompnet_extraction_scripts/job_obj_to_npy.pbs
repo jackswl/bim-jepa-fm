@@ -1,0 +1,50 @@
+#!/bin/bash
+# ============================================================================
+# Mesh-to-pointcloud conversion job: walks the chosen BIMCompNet folders and
+# writes one normalised .npy point cloud per .obj/.ply mesh.
+#
+# Override at submit time, e.g.:
+#   qsub -P <project_code> \
+#        -v CONDA_ENV=myenv,DATA_DIR=/path/to/data,MODE=classification,NUM_POINTS=2048 \
+#        job_obj_to_npy.pbs
+# ============================================================================
+#PBS -l select=1:ncpus=64:mem=440gb
+#PBS -l walltime=24:00:00
+#PBS -j oe
+#PBS -P xxxxxx
+#PBS -q normal
+#PBS -N obj_to_npy
+
+cd $PBS_O_WORKDIR || exit $?
+[ -d log ] || mkdir log
+
+mkdir -p /tmp/.cache
+
+# --- CONFIGURATION (overridable via env / qsub -v) ---
+CONDA_ENV="${CONDA_ENV:-bimjepafm}"
+DATA_DIR="${DATA_DIR:-/scratch/users/nus/xxxxxxxx/bimcompnet}"
+MODE="${MODE:-pretrain}"          # pretrain | classification
+NUM_POINTS="${NUM_POINTS:-4096}"
+WORKERS="${WORKERS:-${PBS_NCPUS:-64}}"
+# -----------------------------------------------------
+
+module load miniforge3
+conda activate "${CONDA_ENV}"
+
+{
+    echo "Active Conda Environment:"
+    conda info --envs
+
+    echo "Running obj_to_npy.py with:"
+    echo "  Mode:       ${MODE}"
+    echo "  Base path:  ${DATA_DIR}"
+    echo "  Num points: ${NUM_POINTS}"
+    echo "  Workers:    ${WORKERS}"
+
+    python obj_to_npy.py \
+        --base-path "${DATA_DIR}" \
+        --mode "${MODE}" \
+        --num-points "${NUM_POINTS}" \
+        --workers "${WORKERS}"
+
+} > out.$PBS_JOBID 2> err.$PBS_JOBID

@@ -1,2 +1,6 @@
 Refer to DATASET.md to download raw data in this data/ folder
 Next, please run the data_convert.ipynb in full
+
+BIMCompNet only: the full release is huge. If you only need the .obj meshes,
+use bimcompnet_extraction_scripts/ to stream-download just those files (see
+the .pbs jobs there for the run order: extract -> quarantine -> obj_to_npy).
