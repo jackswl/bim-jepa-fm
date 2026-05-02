@@ -15,14 +15,18 @@ All training code and weights will be released upon acceptance of the paper.
 All model weights will be made available on HuggingFace upon paper acceptance.
 
 |model| dataset | config | url|
-| :---: | :---: | :---: |  :---: | 
-|BIM-JEPA-pretrained| IFC-884; IFCNet; BIMGEOM | TBD | TBD |
+| :---: | :---: | :---: |  :---: |
+|BIM-JEPA-pretrained| BIMCompNet; IFC-884K; IFCNet; BIMGEOM | TBD | TBD |
 
 |model| dataset  | task | config | url|
 | :---:| :---: | :---: |  :---: | :---: |
 |BIM-JEPA-IFCNetCore| IFCNetCore | Classification | TBD | TBD |
 |BIM-JEPA-BIMGEOM| BIMGEOM | Classification | TBD | TBD |
-|BIM-JEPA-PartNet| PartNet | Part Segmentation | TBD | TBD |
+|BIM-JEPA-BIMCompNet| BIMCompNet | Classification | TBD | TBD |
+|BIM-JEPA-BIMObject| BIMObject | Fine-grained Classification | TBD | TBD |
+|BIM-JEPA-TBD| TBD | Part Segmentation | TBD | TBD |
+|BIM-JEPA-ShapeNetPart| ShapeNetPart | Part Segmentation (OOD) | TBD | TBD |
+|BIM-JEPA-BIMNet| BIMNet | Semantic Segmentation | TBD | TBD |
 
 
 ## Usage
@@ -65,7 +69,9 @@ pip install transformers accelerate "pytorch-lightning>=2.0" "jsonargparse[signa
 ```
 
 ### Dataset
-TBD
+We use multiple BIM/CAD datasets — see [DATASET.md](DATASET.md) for the full list (IFC-884K, IFCNet, IFCNetCore, BIMGEOM, BIMCompNet, BIMObject, BIMNet, ShapeNetPart) with download links and the expected directory layout. Place the raw data under `data/` (see `data/info.txt`), then run `data_convert.ipynb` to pre-process everything into `.npy` point clouds.
+
+If you do not want the full BIMCompNet release (it is very large), `data/bimcompnet_extraction_scripts/` contains PBS jobs that stream-download just the `.obj` meshes you need (extract → quarantine → obj_to_npy).
 
 
 ## License
@@ -78,3 +84,6 @@ in progress
 ```
 
 ## Acknowledgements
+```
+in progress
+```
