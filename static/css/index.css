@@ -1,0 +1,253 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+
+.footer .icon-link {
+    font-size: 25px;
+    color: #000;
+}
+
+.link-block a {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.dnerf {
+  font-variant: small-caps;
+}
+
+
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 3rem;
+}
+
+.teaser {
+  font-family: 'Google Sans', sans-serif;
+}
+
+
+.publication-title {
+}
+
+.publication-banner {
+  max-height: parent;
+
+}
+
+.publication-banner video {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  object-fit: fit;
+}
+
+.publication-header .hero-body {
+}
+
+.publication-title {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-venue {
+    color: #555;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.publication-awards {
+    color: #ff3860;
+    width: fit-content;
+    font-weight: bolder;
+}
+
+.publication-authors {
+}
+
+.publication-authors a {
+   color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors a:hover {
+    text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.publication-banner img {
+}
+
+.publication-authors {
+  /*color: #4286f4;*/
+}
+
+.publication-video {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+
+    overflow: hidden;
+    border-radius: 10px !important;
+}
+
+.publication-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.publication-body img {
+}
+
+.results-carousel {
+  overflow: hidden;
+}
+
+.results-carousel .item {
+  margin: 5px;
+  overflow: hidden;
+  padding: 20px 60px;
+  font-size: 0;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .results-carousel .item {
+    margin: 0;
+    padding: 10px 0;
+  }
+  .results-carousel .slider-navigation-previous,
+  .results-carousel .slider-navigation-next {
+    width: 32px;
+    height: 32px;
+    background-color: rgba(255, 255, 255, 0.7);
+    background-size: 14px 14px;
+    border-color: rgba(255, 255, 255, 0.7);
+  }
+  .results-carousel .slider-navigation-previous {
+    left: 4px;
+  }
+  .results-carousel .slider-navigation-next {
+    right: 4px;
+  }
+}
+
+.results-carousel video {
+  margin: 0;
+}
+
+.results-carousel .carousel-figure {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  max-height: min(72vh, 720px);
+  object-fit: contain;
+  border: 0;
+}
+
+.results-carousel .carousel-caption {
+  max-width: 980px;
+  margin: 1rem auto 0;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.slider-pagination .slider-page {
+  background: #000000;
+}
+
+.eql-cntrb {
+  font-size: smaller;
+}
+
+/* Walkthrough sections */
+/* Match the inset of the top cover image (container is-max-desktop + hero-body's 1.5rem) */
+.walkthrough .container {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* Tighten the gap between consecutive white walkthrough sections */
+.walkthrough + .walkthrough {
+  padding-top: 0;
+}
+
+.walkthrough .content {
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.walkthrough-figure {
+  margin: 1.75rem 0 0;
+  text-align: center;
+}
+
+.walkthrough-figure img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  max-height: min(72vh, 760px);
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.walkthrough-figure figcaption {
+  max-width: 880px;
+  margin: 0.9rem auto 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #666;
+}
+
+.subblock-title {
+  margin-top: 2.5rem;
+}
+
+/* Result tables */
+.result-table-wrap {
+  overflow-x: auto;
+  margin: 1.5rem 0 0;
+}
+
+.result-table {
+  margin: 0 auto;
+  font-size: 0.95rem;
+}
+
+.result-table caption {
+  caption-side: top;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.6rem;
+}
+
+.result-table tbody tr.is-ours {
+  background-color: #f2f6ff;
+}
+
+.result-table tbody tr.is-ours td {
+  font-weight: 700;
+}
+
+.citation-box {
+  overflow-x: auto;
+  white-space: pre;
+  border-radius: 6px;
+  background: #f7f7f7;
+  color: #222;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
