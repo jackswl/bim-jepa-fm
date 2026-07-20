@@ -1,10 +1,10 @@
-# Generalizable foundation models for 3D BIM geometry with a joint embedding predictive architecture
+# Toward generalizable foundation models for 3D BIM geometry using a joint embedding predictive architecture
 
 Created by [Jack Wei Lun Shi](https://jackswl.github.io/)\*, [Wawan Solihin](https://cde.nus.edu.sg/cee/staff/wawan-solihin/), Yufeng Weng, Houhao Liang, [Yimin Zhao](https://ztony0712.github.io/), [Leong Hien Poh](https://scholar.google.com/citations?user=xZ3x56EAAAAJ&hl=en), [Justin Ker-Wei Yeoh](https://scholar.google.com/citations?user=m9LF49sAAAAJ&hl=en)
 
 [[Paper]](https://jackswl.github.io/bim-jepa-fm/) [[Project Page]](https://jackswl.github.io/bim-jepa-fm/) [[Model Weights]](#pretrained-models)
 
-This repository contains BIM-JEPA implementation for __Generalizable foundation models for 3D BIM geometry with a joint embedding predictive architecture__ (Under Review).
+This repository contains BIM-JEPA implementation for __Toward generalizable foundation models for 3D BIM geometry using a joint embedding predictive architecture__ (Under Review).
 
 BIM-JEPA is a point cloud-based foundation model for 3D Building Information Modeling (BIM) geometry, pre-trained via a Latent-Euclidean Joint Embedding Predictive Architecture on individual BIM objects. By enforcing predictive consistency between global object context and local topological details within a regularized latent space, BIM-JEPA extracts robust semantic features while suppressing low-level geometric noise. The learned representations generalize across multiple downstream tasks, including standard and fine-grained object classification, semantic segmentation via transfer learning, out-of-distribution part segmentation of computer-aided design objects, and zero-shot tasks such as shape retrieval and clash detection.
 
