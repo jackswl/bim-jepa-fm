@@ -2,7 +2,7 @@
 
 This branch hosts the GitHub Pages project site for:
 
-**Generalizable foundation models for 3D BIM geometry with a joint embedding predictive architecture**
+**Generalizable foundation models for 3D BIM geometry using a joint embedding predictive architecture**
 
 Currently **under review**.
 
