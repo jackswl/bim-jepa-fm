@@ -26,8 +26,7 @@ The page is based on the Academic Project Page Template.
 
 ## Notes
 
-- The hero buttons for Paper, Model Weights, and Inference Demo are rendered as
-  disabled `<button>` elements. To enable one, swap it back to an `<a href="...">`
-  matching the Training Code button.
+- The hero buttons mirror the ones on `bim-jepa`'s project page. Paper, Demo, and
+  Weights currently point at `href="#"` — swap in the real URLs when they exist.
 - This branch deliberately contains only site files. Training code and data live
   on `main`.
