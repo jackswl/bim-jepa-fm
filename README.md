@@ -80,7 +80,15 @@ MIT License
 ## Citation
 If you find our work useful in your research, please consider citing: 
 ```
-in progress
+@article{shi2026toward,
+  title={Toward generalizable foundation models for 3D BIM geometry using a joint embedding predictive architecture},
+  author={Shi, Jack Wei Lun and Solihin, Wawan and Weng, Yufeng and Liang, Houhao and Zhao, Yimin and Poh, Leong Hien and Yeoh, Justin K.W.},
+  journal={Automation in Construction},
+  volume={191},
+  pages={107169},
+  year={2026},
+  publisher={Elsevier}
+}
 ```
 
 ## Acknowledgements
