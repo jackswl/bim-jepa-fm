@@ -267,6 +267,22 @@
   </div>
 </section>
 
+<!-- Walkthrough: Part segmentation -->
+<section class="section walkthrough">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Part segmentation</h2>
+    <div class="content has-text-justified">
+      <p>
+        Beyond assigning a single label to a whole object, the learned features are dense enough to decompose an object into its constituent parts, which is directly relevant to tasks such as automated code compliance checking. On a curated dataset of 200 BIM objects spanning staircases, ramps, railings, windows, and doors with 17 part labels in total, the model reaches a mean mIoU_C of 78.86%, an improvement of +18.28 percentage points over a <i>k</i>-NN baseline that segments using positional information alone. Performance is strongest on ramps, doors, windows, and railings, and the model accurately delineates large components such as ramp flights, landings, door leaves, window frames, and handrails. It degrades on parts that are thin or finely repeated, such as risers and treads: because the training objective operates in embedding space rather than reconstructing the input geometry, the learned representations tend to emphasize globally discriminative structure over fine-grained local detail. This is visible in the staircase, where the model converges to a shortcut solution that approximately matches the aggregate proportions of tread and riser without recovering their per-step alternation, while the larger and more globally distinctive stringer and landing parts remain accurately segmented.
+      </p>
+    </div>
+    <figure class="walkthrough-figure">
+      <img src="static/images/figure8.png" alt="Part segmentation results for BIM objects" style="max-height: none;"/>
+      <figcaption>Fig. 8. Part segmentation results for BIM objects. Top row: ground truth; bottom row: prediction.</figcaption>
+    </figure>
+  </div>
+</section>
+
 <!-- Walkthrough: Shape retrieval -->
 <section class="section walkthrough">
   <div class="container is-max-desktop">
