@@ -1,10 +1,10 @@
 # Toward generalizable foundation models for 3D BIM geometry using a joint embedding predictive architecture
 
-Created by [Jack Wei Lun Shi](https://jackswl.github.io/)\*, [Wawan Solihin](https://cde.nus.edu.sg/cee/staff/wawan-solihin/), Yufeng Weng, Houhao Liang, [Yimin Zhao](https://ztony0712.github.io/), [Leong Hien Poh](https://scholar.google.com/citations?user=xZ3x56EAAAAJ&hl=en), [Justin Ker-Wei Yeoh](https://scholar.google.com/citations?user=m9LF49sAAAAJ&hl=en)
+Created by [Jack Wei Lun Shi](https://jackswl.github.io/)\*, [Wawan Solihin](https://cde.nus.edu.sg/cee/staff/wawan-solihin/), Yufeng Weng, [Houhao Liang](https://scholar.google.com/citations?user=Fl5X79UAAAAJ&hl=en), [Yimin Zhao](https://ztony0712.github.io/), [Leong Hien Poh](https://scholar.google.com/citations?user=xZ3x56EAAAAJ&hl=en), [Justin Ker-Wei Yeoh](https://scholar.google.com/citations?user=m9LF49sAAAAJ&hl=en)
 
 [[Automation in Construction]](https://doi.org/10.1016/j.autcon.2026.107169) [[Project Page]](https://jackswl.github.io/bim-jepa-fm/) [[Model Weights]](#pretrained-models)
 
-This repository contains BIM-JEPA implementation for __Toward generalizable foundation models for 3D BIM geometry using a joint embedding predictive architecture__ (Under Review).
+This repository contains BIM-JEPA implementation for __Toward generalizable foundation models for 3D BIM geometry using a joint embedding predictive architecture__, published in Automation in Construction.
 
 BIM-JEPA is a point cloud-based foundation model for 3D Building Information Modeling (BIM) geometry, pre-trained via a Latent-Euclidean Joint Embedding Predictive Architecture on individual BIM objects. By enforcing alignment across multi-view BIM object representations within a regularized latent space, BIM-JEPA extracts robust semantic features while suppressing low-level geometric noise. The learned representations generalize across multiple downstream tasks, including standard and fine-grained object classification, semantic segmentation via transfer learning, out-of-distribution part segmentation of computer-aided design objects, and zero-shot tasks such as shape retrieval and anomaly detection.
 
