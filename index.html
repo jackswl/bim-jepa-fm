@@ -158,6 +158,162 @@
 </section>
 
 
+<!-- Walkthrough: Pre-training framework -->
+<section class="section walkthrough">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">How the model is pre-trained</h2>
+    <div class="content has-text-justified">
+      <p>
+        The proposed model adapts the Latent-Euclidean Joint Embedding Predictive Architecture (LeJEPA) to 3D BIM point clouds, learning geometric features by enforcing predictive consistency across multiple latent views of the same object. From a single BIM point cloud, a hierarchical multi-view generation stage produces 2 global views (i.e., 75% of the object, capturing overall topology) and 8 local views (i.e., 12.5%, capturing fine-grained detail) via Farthest Point Sampling and <i>k</i>-Nearest Neighbor cropping, followed by an augmentation pipeline that mimics real-world geometric noise. Each view is tokenized into 64 patch embeddings by a shared Mini-PointNet and encoded by a transformer backbone. The training objective then pulls every view embedding toward the mean of the global view embeddings, while Sketched Isotropic Gaussian Regularization (SIGReg) shapes the joint distribution of the embeddings into an isotropic Gaussian. This explicit regularization prevents representation collapse, removing the need for training heuristics such as stop-gradients or momentum-based teacher networks.
+      </p>
+    </div>
+    <figure class="walkthrough-figure">
+      <img src="static/images/figure1.png" alt="Pre-training framework of the proposed foundation model"/>
+      <figcaption>Fig. 1. Pre-training framework of the proposed foundation model.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Walkthrough: Downstream tasks -->
+<section class="section walkthrough">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">One model, many downstream tasks</h2>
+    <div class="content has-text-justified">
+      <p>
+        Because the pre-trained encoder already extracts robust and generalizable geometric features, downstream architectures remain lightweight. By appending simple predictive heads to the frozen or fine-tuned backbone, a single foundation model serves object classification, part segmentation, and scene-level semantic segmentation, without constructing complex task-specific models. These heads are intentionally kept simple in order to isolate the quality of the learned representations, and further performance gains can be anticipated with more advanced decoding architectures.
+      </p>
+    </div>
+    <figure class="walkthrough-figure">
+      <img src="static/images/figure7.png" alt="Overview of the proposed model adapted for downstream task evaluations"/>
+      <figcaption>Fig. 7. Overview of the proposed model adapted for downstream task evaluations.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Walkthrough: Classification results -->
+<section class="section walkthrough">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Object classification</h2>
+
+    <div class="content has-text-justified">
+      <p>
+        On IFCNetCore, the proposed model achieves the highest performance across every reported metric, with an overall accuracy of 89.80% and a mean class accuracy of 89.17%. Compared to the strongest baseline (i.e., MVCNN), this corresponds to gains of +2.83% on overall accuracy and +3.63% on mean class accuracy. The larger improvement on mean class accuracy indicates that the model is effective on under-represented building components, narrowing the performance gap between majority and minority classes that typically penalizes models trained on imbalanced data.
+      </p>
+    </div>
+    <div class="result-table-wrap">
+      <table class="table is-bordered is-hoverable result-table">
+        <caption>Table 2. Accuracy metrics on IFCNetCore.</caption>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Overall Acc. (%)</th>
+            <th>Mean Class Acc. (%)</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            <th>F1</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>MVCNN</td><td>86.97</td><td>85.54</td><td>87.48</td><td>86.97</td><td>86.93</td></tr>
+          <tr><td>MeshNet</td><td>85.75</td><td>83.32</td><td>86.45</td><td>85.75</td><td>85.72</td></tr>
+          <tr><td>DGCNN</td><td>82.30</td><td>79.11</td><td>83.26</td><td>82.30</td><td>82.15</td></tr>
+          <tr><td>SpaRSE-BIM</td><td>81.59</td><td>83.02</td><td>82.78</td><td>81.59</td><td>81.80</td></tr>
+          <tr class="is-ours"><td>BIM-JEPA</td><td>89.80 &plusmn; 0.17</td><td>89.17 &plusmn; 0.31</td><td>90.13 &plusmn; 0.34</td><td>89.80 &plusmn; 0.17</td><td>89.48 &plusmn; 0.28</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="content has-text-justified" style="margin-top: 2rem;">
+      <p>
+        On the imbalanced BIMGEOM dataset, the model achieves an overall accuracy of 93.40% and a mean class accuracy of 91.14%. Its macro-averaged F1 score, a metric that treats minority and majority classes equally, reaches 90.87%, outperforming supervised baselines such as SpaRSE-BIM. Crucially, this minority-class performance is achieved without relying on any explicit class-balancing augmentations during the pre-training and fine-tuning stages, validating that the LeJEPA formulation successfully prevents representation collapse and forces the encoder to extract discriminative, view-invariant features even for under-represented geometric classes.
+      </p>
+    </div>
+    <div class="result-table-wrap">
+      <table class="table is-bordered is-hoverable result-table">
+        <caption>Table 3. Accuracy metrics on BIMGEOM.</caption>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Overall Acc. (%)</th>
+            <th>Mean Class Acc. (%)</th>
+            <th>Macro Avg. (P / F1)</th>
+            <th>Weighted Avg. (P / F1)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Mesh to Graph</td><td>85</td><td>76</td><td>&ndash;</td><td>&ndash;</td></tr>
+          <tr><td>5-NN Graph</td><td>83</td><td>78</td><td>&ndash;</td><td>&ndash;</td></tr>
+          <tr><td>SpaRSE-BIM</td><td>90.47</td><td>87.66</td><td>84.70 / 85.78</td><td>91.43 / 90.77</td></tr>
+          <tr class="is-ours"><td>BIM-JEPA</td><td>93.40 &plusmn; 0.13</td><td>91.14 &plusmn; 0.35</td><td>90.76 &plusmn; 0.12 / 90.87 &plusmn; 0.23</td><td>93.49 &plusmn; 0.12 / 93.39 &plusmn; 0.13</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Walkthrough: Scene segmentation -->
+<section class="section walkthrough">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Scene segmentation</h2>
+    <div class="content has-text-justified">
+      <p>
+        Semantic segmentation on BIMNet examines how well representations learned from isolated BIM objects transfer to multi-object indoor scenes. In contrast to the comparison baselines, the model operates on geometry alone (i.e., XYZ only, without color) and has not been exposed to multi-object scene contexts during pre-training. Despite these constraints, it reaches a competitive overall mIoU of 40.22% and an overall mAcc of 49.52%, matching close to the performance of task-specific architectures that are pre-trained on scenes. The model delineates prominent building and non-building elements, and accurately identifies core components such as slabs, walls, windows, and furniture. It also achieves the highest IoU across all evaluated models on stairs (i.e., 71.21%) and railings (i.e., 52.99%), which are relatively more topologically complex than standard planar surfaces such as walls or slabs.
+      </p>
+    </div>
+    <figure class="walkthrough-figure">
+      <img src="static/images/figure10.png" alt="Semantic segmentation of various scenes" style="max-height: none;"/>
+      <figcaption>Fig. 10. Semantic segmentation of various scenes.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Walkthrough: Shape retrieval -->
+<section class="section walkthrough">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Zero-shot shape retrieval</h2>
+    <div class="content has-text-justified">
+      <p>
+        Shape retrieval tests the inherent capacity of the model to cluster semantically and topologically similar geometries without any task-specific fine-tuning. Input point clouds are simply passed through the projection head to obtain a compact 256-dimensional embedding per object, and the top-6 nearest neighbors are retrieved by Euclidean distance in this latent space. The approach achieves a macro-averaged precision of 86.2% across the 20 tested IFC classes. Structural elements such as IfcStair, IfcRailing, and IfcDoor demonstrate great retrieval precision, ranging from 96.2% to 100%, confirming that the model distinguishes their global topological signatures with high confidence. It also handles intra-class variation robustly, easily disambiguating features such as single versus double door panel configurations. For classes with higher variability, such as IfcPipeFitting and IfcFurniture, retrieval precision remains high at 93.2% and 91.3% respectively, with the model successfully matching a query chair to other chairs despite never being explicitly pre-trained on fine-grained furniture sub-classes.
+      </p>
+    </div>
+    <figure class="walkthrough-figure">
+      <img src="static/images/figure11.png" alt="Retrieval performance across representative IFC classes" style="max-height: none;"/>
+      <figcaption>Fig. 11. Qualitative evaluation of retrieval performance across representative IFC classes.</figcaption>
+    </figure>
+  </div>
+</section>
+<!-- End walkthrough -->
+
+<!-- Closing call-to-action -->
+<section class="section walkthrough">
+  <div class="container is-max-desktop has-text-justified">
+    <p style="font-size: 1.1rem;">
+      And that's the overview! If you would like to dig into the methodology, the full set of experiments, and everything in between, do take a look at the <a href="https://doi.org/10.1016/j.autcon.2026.107169" target="_blank">full paper</a>.
+    </p>
+  </div>
+</section>
+<!-- End closing call-to-action -->
+
+<!-- Citation -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Citation</h2>
+    <div class="content">
+      <pre class="citation-box"><code>@article{shi2026toward,
+  title={Toward generalizable foundation models for 3D BIM geometry using a joint embedding predictive architecture},
+  author={Shi, Jack Wei Lun and Solihin, Wawan and Weng, Yufeng and Liang, Houhao and Zhao, Yimin and Poh, Leong Hien and Yeoh, Justin K.W.},
+  journal={Automation in Construction},
+  volume={191},
+  pages={107169},
+  year={2026},
+  publisher={Elsevier}
+}</code></pre>
+    </div>
+  </div>
+</section>
+<!-- End citation -->
+
+
 <footer class="footer">
   <div class="container">
     <div class="columns is-centered">
