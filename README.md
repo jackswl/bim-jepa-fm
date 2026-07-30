@@ -93,5 +93,5 @@ If you find our work useful in your research, please consider citing:
 
 ## Acknowledgements
 ```
-in progress
+We sincerely thank the authors of LeJEPA, Point-JEPA, SpaRSE-BIM/IFCNet, BIMGEOM, BIMCompNet, BIMNet, for making their code/data and models publicly available, which served as the foundation for this work. If you use our work, please also consider citing these papers.
 ```
