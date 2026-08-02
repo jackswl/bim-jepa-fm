@@ -242,12 +242,34 @@ body {
   font-weight: 700;
 }
 
+/*
+ * Bulma's .hero is a flex container, and .container is a flex item with
+ * `margin: 0 auto`. Auto cross-axis margins suppress `align-self: stretch`,
+ * so the container falls back to shrink-to-fit and grows to the min-content
+ * width of its widest child. For the unbreakable `white-space: pre` citation
+ * block that is ~1266px, which pushed the whole page into horizontal scroll
+ * on phones and tablets. Pinning the width makes it definite again, so
+ * overflow-x on the inner blocks can actually take effect.
+ */
+.hero > .container,
+.section > .container {
+  width: 100%;
+}
+
 .citation-box {
   overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
   white-space: pre;
   border-radius: 6px;
   background: #f7f7f7;
   color: #222;
   font-size: 0.9rem;
   line-height: 1.45;
+}
+
+@media screen and (max-width: 768px) {
+  .citation-box {
+    font-size: 0.75rem;
+  }
 }
