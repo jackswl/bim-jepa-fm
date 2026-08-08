@@ -36,7 +36,7 @@ The page is based on the Academic Project Page Template.
 
 ## Notes
 
-- The hero buttons mirror the ones on `bim-jepa`'s project page. Paper and Weights
-  point at the DOI and the Hugging Face repo; Demo is still `href="#"`.
+- The hero buttons mirror the ones on `bim-jepa`'s project page. Demo points at the
+  notebook in the `bim-jepa` repo.
 - This branch deliberately contains only site files. Training code and data live
   on `main`.
