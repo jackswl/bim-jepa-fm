@@ -4,17 +4,27 @@ This branch hosts the GitHub Pages project site for:
 
 **Toward generalizable foundation models for 3D BIM geometry using a joint embedding predictive architecture**
 
-Currently **under review**.
+Published in *Automation in Construction* 191:107169 (2026).
 
+- Paper: https://doi.org/10.1016/j.autcon.2026.107169
 - Project page: https://jackswl.github.io/bim-jepa-fm/
 - Code: https://github.com/jackswl/bim-jepa-fm
+- Model weights: https://huggingface.co/llama2thedog/BIM-JEPA-FM
 - Data details: https://github.com/jackswl/bim-jepa-fm/blob/main/DATASET.md
-
-Paper link, model weights, and the inference demo will be added upon acceptance.
 
 ## Citation
 
-In progress — to be added upon acceptance.
+```bibtex
+@article{shi2026toward,
+  title={Toward generalizable foundation models for 3D BIM geometry using a joint embedding predictive architecture},
+  author={Shi, Jack Wei Lun and Solihin, Wawan and Weng, Yufeng and Liang, Houhao and Zhao, Yimin and Poh, Leong Hien and Yeoh, Justin K.W.},
+  journal={Automation in Construction},
+  volume={191},
+  pages={107169},
+  year={2026},
+  publisher={Elsevier}
+}
+```
 
 ## Site Files
 
@@ -26,7 +36,7 @@ The page is based on the Academic Project Page Template.
 
 ## Notes
 
-- The hero buttons mirror the ones on `bim-jepa`'s project page. Paper, Demo, and
-  Weights currently point at `href="#"` — swap in the real URLs when they exist.
+- The hero buttons mirror the ones on `bim-jepa`'s project page. Paper and Weights
+  point at the DOI and the Hugging Face repo; Demo is still `href="#"`.
 - This branch deliberately contains only site files. Training code and data live
   on `main`.
