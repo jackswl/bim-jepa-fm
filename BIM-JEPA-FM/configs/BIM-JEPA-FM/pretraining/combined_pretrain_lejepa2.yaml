@@ -1,0 +1,134 @@
+seed_everything: 1
+
+trainer:
+  default_root_dir: "artifacts"
+  gradient_clip_val: 2
+  gradient_clip_algorithm: "norm"
+  log_every_n_steps: 10
+  strategy: "ddp"
+  check_val_every_n_epoch: 100000  # no validation during pretraining
+  accelerator: "gpu"
+  devices: 4
+  num_sanity_val_steps: 0
+  sync_batchnorm: true
+  max_epochs: 100
+  precision: "bf16-mixed"  # as in the LeJEPA paper
+
+  logger:
+    - class_path: pytorch_lightning.loggers.CSVLogger
+      init_args:
+        save_dir: "artifacts"
+        name: "lightning_logs"   # -> artifacts/lightning_logs/version_X
+    - class_path: pytorch_lightning.loggers.WandbLogger
+      init_args:
+        project: "lejepa_bim"
+        name: "lejepa-pretrain-v0"
+        save_dir: "artifacts"
+        log_model: false
+
+  callbacks:
+    - class_path: pytorch_lightning.callbacks.LearningRateMonitor
+      init_args:
+        logging_interval: "epoch"
+    - class_path: pointjepa.callbacks.log_at_best_val.TrackLinearAccAtMinLossCallback
+      init_args:
+        monitor_metric_name: "svm_val_acc_ifcnetcore_val"  # not produced by PointLeJEPA, so this callback stays inert
+    - class_path: pytorch_lightning.callbacks.ModelCheckpoint
+      init_args:
+        every_n_epochs: 1
+        save_last: true
+        save_top_k: 0
+
+model:
+  # ------------ tokenizer / encoder ------------
+  tokenizer_num_groups: 64
+  tokenizer_group_size: 32
+  tokenizer_group_radius: null
+
+  encoder_dim: 384
+  encoder_depth: 12
+  encoder_heads: 6
+  encoder_dropout: 0.1
+  encoder_attention_dropout: 0.05
+  encoder_drop_path_rate: 0.25
+  encoder_add_pos_at_every_layer: true
+
+  # ------------ optimization ------------
+  learning_rate: 5e-4
+  optimizer_adamw_weight_decay: 0.05
+  lr_scheduler_linear_warmup_epochs: 10        # 10% of 100 epochs
+  lr_scheduler_linear_warmup_start_lr: 5e-5
+  lr_scheduler_cosine_eta_min: 5e-6
+
+  # ------------ augmentations (shared by global + local views) ------------
+  train_transformations:
+    # no "subsample": the .npy files are already 4096 points
+    - "scale"
+    - "center"
+    - "unit_sphere"
+    - "rotate"
+    - "jitter"
+  val_transformations:
+    - "center"
+    - "unit_sphere"
+
+  transformation_subsample_points: 4096  # unused unless "subsample" is listed above
+  transformation_scale_min: 0.8
+  transformation_scale_max: 1.2
+  transformation_scale_symmetries: [1, 1, 0] # only x and/or y will get sign flipped
+  transformation_rotate_dims: [2]
+  transformation_rotate_degs: null
+  transformation_translate: 0.2
+  transformation_height_normalize_dim: 1
+
+  # ------------ LeJEPA-specific hyperparameters ------------
+  # projector output dimension (D in proj ∈ R^{V×B×D})
+  lejepa_proj_dim: 256
+
+  # λ in L = λ * SIGReg + (1-λ) * invariance_loss
+  lejepa_lambda: 0.05
+
+  # SIGReg settings
+  sigreg_knots: 17        # number of quadrature points
+  sigreg_num_dirs: 1024   # number of slices / random directions |A|
+  sigreg_t_max: 5.0       # integrates effectively over [-5, 5]
+
+  # multi-view layout: 2 globals + 8 locals
+  num_global_views: 2
+  num_local_views: 8
+
+  # global views: FPS seeds, kNN with ~75% of the points (coherent, big crops)
+  global_neighbor_ratio: 0.75    # 0.75 * 4096 ≈ 3072 points
+
+  # local views: FPS seeds, kNN neighborhoods with 512 points (~12.5%)
+  local_num_points: 512
+
+data:
+  class_path: pointjepa.datasets.combined_ifc_datamodule.CombinedIFCDataModule
+  init_args:
+    data_dirs:
+      - /path/to/data/jepadata/IFC_extracted_elements_dataset_part_1_pointclouds_4096
+      - /path/to/data/jepadata/IFC_extracted_elements_dataset_part_2_pointclouds_4096
+      - /path/to/data/jepadata/IFC_extracted_elements_dataset_part_3_pointclouds_4096
+      - /path/to/data/jepadata/IFCNet_NO_TEST_pointclouds_4096
+      - /path/to/data/jepadata/processed_BIMGEOM_NO_TEST_pointclouds_4096
+      - /path/to/data/bimcompnet/Museum_pointclouds_4096
+      - /path/to/data/bimcompnet/Malls_pointclouds_4096
+      - /path/to/data/bimcompnet/Hospital_A_pointclouds_4096
+      - /path/to/data/bimcompnet/Hospital_B_pointclouds_4096
+      - /path/to/data/bimcompnet/Hospital_C_pointclouds_4096
+      - /path/to/data/bimcompnet/EquipmentRoom_pointclouds_4096
+      - /path/to/data/bimcompnet/Factory_pointclouds_4096
+      - /path/to/data/bimcompnet/Hotels_pointclouds_4096
+      - /path/to/data/bimcompnet/Layout_pointclouds_4096
+      - /path/to/data/bimcompnet/Metro_pointclouds_4096
+      - /path/to/data/bimcompnet/Office_pointclouds_4096
+      - /path/to/data/bimcompnet/Public_pointclouds_4096
+      - /path/to/data/bimcompnet/Residential_pointclouds_4096
+      - /path/to/data/bimcompnet/School_pointclouds_4096
+      - /path/to/data/bimcompnet/Theater_pointclouds_4096
+      - /path/to/data/bimcompnet/Villa_pointclouds_4096
+    batch_size: 128
+    num_workers: 14
+    val_split_ratio: 0.0  # 0.0 = no validation split; train on all files
+    seed: 42

@@ -1,0 +1,62 @@
+seed_everything: 42
+trainer:
+  sync_batchnorm: true
+  max_epochs: 350
+  precision: "bf16-mixed"
+  gradient_clip_algorithm: norm
+  gradient_clip_val: 10
+model:
+  # --- Architecture parameters MUST match pre-training ---
+  num_points: 4096
+  tokenizer_num_groups: 64
+  tokenizer_group_size: 32
+  tokenizer_group_radius: null
+  encoder_dim: 384
+  encoder_depth: 12
+  encoder_heads: 6
+  encoder_drop_path_rate: 0.25
+  encoder_add_pos_at_every_layer: true
+
+  # --- Fine-tuning specific parameters ---
+  # Pre-trained encoder. Download last.ckpt from https://huggingface.co/llama2thedog/BIM-JEPA-FM
+  pretrained_ckpt_path: /path/to/last.ckpt
+  encoder_unfreeze_epoch: 175
+
+  # --- Classification Head ---
+  cls_head: mlp
+  cls_head_dim: 256
+  cls_head_dropout: 0.5
+  cls_head_pooling: mean+max
+
+  # --- Optimization ---
+  loss_label_smoothing: 0.1
+  learning_rate: 0.001
+  encoder_learning_rate: 0.0001 # Smaller LR for the pre-trained encoder
+  optimizer_adamw_weight_decay: 0.05
+  lr_scheduler_linear_warmup_epochs: 10
+  lr_scheduler_linear_warmup_start_lr: 1.0e-06
+  lr_scheduler_cosine_eta_min: 1.0e-06
+
+  # --- Augmentations ---
+  train_transformations:
+  - "scale"
+  - "center"
+  - "unit_sphere"
+  val_transformations:
+  - "center"
+  - "unit_sphere"
+  transformation_scale_min: 0.6
+  transformation_scale_max: 1.4
+  transformation_rotate_dims: [0, 1, 2]
+  transformation_translate: 0.2
+
+data:
+  class_path: pointjepa.datasets.bimcompnet_datamodule.BIMCompNetDataModule
+  init_args:
+    # Sample size: 100 per class (Table 4)
+    train_dir: /path/to/data/bimcompnet/BIMCompNet_100_train_npy
+    test_dir: /path/to/data/bimcompnet/BIMCompNet_100_test_npy
+    batch_size: 32
+    num_workers: 14
+    val_split_ratio: 0.0
+    seed: 42
