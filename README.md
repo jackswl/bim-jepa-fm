@@ -10,6 +10,8 @@ BIM-JEPA is a point cloud-based foundation model for 3D Building Information Mod
 
 ## <a id="pretrained-models"></a>Pre-trained Model
 
+This model is pre-trained on over 2.1 million BIM elements; our earlier [BIM-JEPA](https://github.com/jackswl/bim-jepa) release was pre-trained on roughly 900k.
+
 |model| dataset | config | url|
 | :---: | :---: | :---: |  :---: |
 |BIM-JEPA-pretrained| BIMCompNet; IFC-884K; IFCNet; BIMGEOM | [`combined_pretrain_lejepa2.yaml`](BIM-JEPA-FM/configs/BIM-JEPA-FM/pretraining/combined_pretrain_lejepa2.yaml) | [🤗 llama2thedog/BIM-JEPA-FM](https://huggingface.co/llama2thedog/BIM-JEPA-FM) |
